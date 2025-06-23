@@ -209,7 +209,7 @@ CREATE TABLE document_access (
           
           <h4 className="font-medium mb-1 mt-3">Framework Features</h4>
           <ul className="list-disc list-inside ml-4 space-y-1">
-            <li>Django's permission_required</li>
+            <li>Djangos permission_required</li>
             <li>Spring Security annotations</li>
             <li>Ruby on Rails Pundit</li>
           </ul>
