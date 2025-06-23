@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 // File: /app/xss/page.tsx
 export default function XSSPage() {
   return (
