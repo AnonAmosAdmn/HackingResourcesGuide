@@ -179,13 +179,6 @@ disable_functions = exec,passthru,shell_exec,system`}
         </ul>
       </div>
 
-      <div className="mt-8 p-4 bg-red-900 rounded-lg">
-        <h3 className="text-lg font-semibold mb-2 text-red-300">Legal Notice</h3>
-        <p className="text-sm">
-          This content is provided for educational purposes only. Never test security vulnerabilities 
-          against systems without explicit permission. Unauthorized testing may violate laws.
-        </p>
-      </div>
     </main>
   );
 }
