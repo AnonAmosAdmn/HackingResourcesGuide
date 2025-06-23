@@ -1,103 +1,112 @@
-import Image from "next/image";
+import React from 'react';
+import Head from 'next/head';
+import Link from 'next/link';
+
+const vulnerabilities = [
+  {
+    name: 'SQL Injection',
+    path: '/sql-injection',
+    description: 'Inject malicious SQL queries to manipulate databases.',
+    image: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgdmlld0JveD0iMCAwIDY0IDY0Ij48cmVjdCB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIGZpbGw9IiNmZjY2NjYiIHJ4PSI4IiByeT0iOCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXdlaWdodD0iYm9sZCIgZm9udC1zaXplPSIyNCIgZmlsbD0iI2ZmZiI+U1FMPC90ZXh0Pjwvc3ZnPg=='
+  },
+  {
+    name: 'XSS (Cross-Site Scripting)',
+    path: '/xss',
+    description: 'Inject scripts into web pages viewed by others.',
+    image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiBmaWxsPSIjZmY4ODAwIi8+PHRleHQgeD0iMTIiIHk9IjE1IiBmb250LXNpemU9IjEwIiBmb250LWZhbWlseT0iQXJpYWwiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IndoaXRlIj5YU1M8L3RleHQ+PC9zdmc+'
+  },
+  {
+    name: 'CSRF (Cross-Site Request Forgery)',
+    path: '/csrf',
+    description: 'Forge requests on behalf of authenticated users.',
+    image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiBmaWxsPSIjYjBkMmZmIi8+PHRleHQgeD0iMTIiIHk9IjE1IiBmb250LXNpemU9IjgiIGZvbnQtZmFtaWx5PSJBcmlhbCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0id2hpdGUiPkNTUkY8L3RleHQ+PC9zdmc+'
+  },
+
+  {
+    name: 'RCE (Remote Code Execution)',
+    path: '/rce',
+    description: 'Execute arbitrary code on a remote machine.',
+    image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiBmaWxsPSIjMDA5OTAwIi8+PHRleHQgeD0iMTIiIHk9IjE1IiBmb250LXNpemU9IjgiIGZvbnQtZmFtaWx5PSJBcmlhbCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0id2hpdGUiPlJDRTwvdGV4dD48L3N2Zz4='
+  },
+
+  {
+    name: 'LFI (Local File Inclusion)',
+    path: '/file-inclusion',
+    description: 'Include arbitrary files from the local file system.',
+    image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiBmaWxsPSIjOGU0NGFkIi8+PHRleHQgeD0iMTIiIHk9IjE1IiBmb250LXNpemU9IjgiIGZvbnQtZmFtaWx5PSJBcmlhbCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0id2hpdGUiPkxGSTwvdGV4dD48L3N2Zz4='
+  },
+
+  {
+    name: 'IDOR (Insecure Direct Object Reference)',
+    path: '/idor',
+    description: 'Access unauthorized resources by modifying object references.',
+    image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiBmaWxsPSIjZTYwMDgwIi8+PHRleHQgeD0iMTIiIHk9IjE1IiBmb250LXNpemU9IjgiIGZvbnQtZmFtaWx5PSJBcmlhbCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0id2hpdGUiPklET1I8L3RleHQ+PC9zdmc+'
+  },
+
+  {
+    name: 'SSRF (Server-Side Request Forgery)',
+    path: '/ssrf',
+    description: 'Trick server into making requests to internal resources.',
+    image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiBmaWxsPSIjZmY4ODAwIi8+PHRleHQgeD0iMTIiIHk9IjE1IiBmb250LXNpemU9IjgiIGZvbnQtZmFtaWx5PSJBcmlhbCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0id2hpdGUiPlNTUkY8L3RleHQ+PC9zdmc+'
+  },
+
+
+  {
+    name: 'Clickjacking',
+    path: '/clickjacking',
+    description: 'Trick users into clicking hidden UI elements.',
+    image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIGZpbGw9IiMwMGFhMDAiLz48dGV4dCB4PSIxMiIgeT0iMTAiIGZvbnQtc2l6ZT0iOCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0id2hpdGUiPkNsaWNrPC90ZXh0Pjx0ZXh0IHg9IjEyIiB5PSIyMCIgZm9udC1zaXplPSI4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSJ3aGl0ZSI+amFja2luZzwvdGV4dD48L3N2Zz4='
+  },
+
+
+  {
+    name: 'Open Redirect',
+    path: '/open-redirect',
+    description: 'Redirect users to untrusted locations using manipulated URLs.',
+    image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIGZpbGw9IiNmZjAwMDAiLz48dGV4dCB4PSIxMiIgeT0iMTAiIGZvbnQtc2l6ZT0iOCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0id2hpdGUiPk9wZW48L3RleHQ+PHRleHQgeD0iMTIiIHk9IjIwIiBmb250LXNpemU9IjgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IndoaXRlIj5SZWRpcmVjdDwvdGV4dD48L3N2Zz4='
+  },
+
+];
+
+
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <>
+      <Head>
+        <title>Hacker Resource Guide – Vulnerability Index</title>
+      </Head>
+      <main className="p-8 max-w-5xl mx-auto text-center">
+        <h1 className="text-4xl font-bold mb-6 text-purple-600">🛠️ Hacker Resource Guide</h1>
+        <p className="mb-8 text-white">
+          Click any vulnerability to explore payloads, techniques, and examples.
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-1 gap-6">
+          {vulnerabilities.map((v) => (
+            <Link href={v.path} key={v.path} className="group">
+              <div
+                tabIndex={0}
+                role="link"
+                className="bg-gray-100 hover:bg-purple-100 transition rounded-lg shadow p-4 flex items-start gap-4 text-left cursor-pointer"
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  width={48}
+                  height={48}
+                  src={v.image}
+                  alt={`${v.name} icon`}
+                  className="w-12 h-12 object-contain bg-white rounded border border-black/10 shadow-sm"
+                />
+                <div>
+                  <h2 className="text-xl font-semibold text-purple-800 group-hover:underline">{v.name}</h2>
+                  <p className="text-gray-700 text-sm mt-1">{v.description}</p>
+                  <span className="text-xs text-purple-500 mt-2 block">{v.path}</span>
+                </div>
+              </div>
+            </Link>
+          ))}
         </div>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+    </>
   );
 }
