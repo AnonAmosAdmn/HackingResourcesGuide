@@ -281,63 +281,63 @@ Cookie: session=valid_user_session_token`}
 
 
         <article className="mb-6 bg-gray-900 p-4 rounded-lg">
-          <h3 className="text-xl font-semibold mb-2 text-red-400">5. Recursive SSRF</h3>
+          <h3 className="text-xl font-semibold mb-2 text-red-400">5. File SSRF</h3>
           <p className="mb-3">
-            Recursive SSRF occurs when a server-side request triggered by SSRF leads to another internal request, creating a chain or loop of requests. This can be exploited to scan internal networks, amplify attacks, or reach deeply nested internal resources that are not directly accessible.
+            File SSRF exploits occur when an attacker uses SSRF to make the server read local files on the filesystem via the <code>file://</code> protocol or other schemes. This can lead to sensitive information disclosure like configuration files, credentials, or source code.
           </p>
 
           <div className="space-y-4">
             <div>
-              <h4 className="font-medium mb-1">Example: SSRF Triggering Internal Redirect</h4>
+              <h4 className="font-medium mb-1">Example: Accessing /etc/passwd</h4>
               <pre className="bg-gray-700 p-3 rounded overflow-auto">
-{`http://vulnerable.com/api/fetch?url=http://internal-service.local/redirect?target=http://127.0.0.1/admin`}
+{`http://vulnerable.com/api/fetch?url=file:///etc/passwd`}
               </pre>
               <p className="text-sm text-gray-400 mt-1">
-                The initial SSRF request triggers a redirect that causes the server to make an additional request to another internal URL.
+                Attempts to read the Unix password file, which contains user account information.
               </p>
             </div>
 
             <div>
-              <h4 className="font-medium mb-1">Example: Chained SSRF to Scan Network</h4>
+              <h4 className="font-medium mb-1">Example: Reading Application Config</h4>
               <pre className="bg-gray-700 p-3 rounded overflow-auto">
-{`http://vulnerable.com/api/fetch?url=http://10.0.0.5:8080/scan?next=10.0.0.6`}
+{`http://vulnerable.com/api/fetch?url=file:///var/www/app/config.yaml`}
               </pre>
               <p className="text-sm text-gray-400 mt-1">
-                A crafted SSRF request triggers the server to scan a network range recursively by chaining internal requests through vulnerable endpoints.
+                Reads sensitive application configuration files that may contain database credentials or API keys.
               </p>
             </div>
 
             <div>
-              <h4 className="font-medium mb-1">Amplification via Recursive Requests</h4>
+              <h4 className="font-medium mb-1">Example: Windows File Access</h4>
               <pre className="bg-gray-700 p-3 rounded overflow-auto">
-{`http://vulnerable.com/api/fetch?url=http://internal-service.local/fetch?url=http://another-service.local/admin`}
+{`http://vulnerable.com/api/fetch?url=file:///C:/Windows/System32/drivers/etc/hosts`}
               </pre>
               <p className="text-sm text-gray-400 mt-1">
-                Recursive SSRF can cause multiple internal requests cascading from one initial attacker-controlled input.
+                Reads the Windows hosts file, which can reveal local DNS overrides or network information.
               </p>
             </div>
 
             <div className="p-3 bg-red-900/30 rounded">
-              <h4 className="font-medium mb-1">Risks of Recursive SSRF:</h4>
+              <h4 className="font-medium mb-1">Risks of File SSRF:</h4>
               <ul className="list-disc list-inside ml-4 space-y-1">
-                <li>Internal network discovery and enumeration</li>
-                <li>Amplified attack surface increasing the chance of sensitive data exposure</li>
-                <li>Potential for Denial-of-Service by exhausting server resources</li>
-                <li>Harder to detect due to multi-step indirect requests</li>
+                <li>Disclosure of sensitive files and credentials</li>
+                <li>Exposure of source code, configuration, and secrets</li>
+                <li>Potential for further attacks if sensitive data is leaked</li>
               </ul>
             </div>
 
             <div>
               <h4 className="font-medium mb-1">Mitigation Strategies:</h4>
               <ul className="list-disc list-inside ml-4 space-y-1 text-sm text-gray-400">
-                <li>Implement strict request validation and allowlisting</li>
-                <li>Limit or block redirects and chained requests within internal services</li>
-                <li>Monitor and rate-limit outbound server requests</li>
-                <li>Use network segmentation to minimize accessible internal endpoints</li>
+                <li>Disallow usage of <code>file://</code> and other risky protocols in user input</li>
+                <li>Use strict validation and allowlists for URL schemes</li>
+                <li>Run services with least privilege to minimize file access</li>
+                <li>Log and monitor suspicious access attempts to local files</li>
               </ul>
             </div>
           </div>
         </article>
+
 
 
       </section>
