@@ -1,7 +1,15 @@
 export default function SSRFPage() {
   return (
+
+
+    
     <main className="p-8 max-w-4xl mx-auto font-sans text-white">
       <h1 className="text-4xl font-extrabold mb-8 text-purple-600">Server-Side Request Forgery (SSRF) Comprehensive Guide</h1>
+
+
+
+
+
 
       <section className="mb-8">
         <h2 className="text-2xl font-bold mb-3">What is SSRF?</h2>
@@ -339,6 +347,9 @@ Cookie: session=valid_user_session_token`}
       <section className="mb-10">
         <h2 className="text-3xl font-semibold mb-4 text-blue-600">Blue Team Defenses (Defensive)</h2>
 
+
+
+
         <article className="mb-6 bg-gray-900 p-4 rounded-lg">
           <h3 className="text-xl font-semibold mb-2 text-blue-400">1. Input Validation</h3>
           
@@ -361,6 +372,11 @@ function isForbiddenIP(ip) {
           </pre>
         </article>
 
+
+
+
+
+
         <article className="mb-6 bg-gray-900 p-4 rounded-lg">
           <h3 className="text-xl font-semibold mb-2 text-blue-400">2. Network Controls</h3>
           
@@ -378,6 +394,11 @@ function isForbiddenIP(ip) {
             <li>Azure metadata firewall rules</li>
           </ul>
         </article>
+
+
+
+
+
 
         <article className="mb-6 bg-gray-900 p-4 rounded-lg">
           <h3 className="text-xl font-semibold mb-2 text-blue-400">3. Secure Coding Practices</h3>
@@ -400,6 +421,11 @@ def fetch_url(request):
           </pre>
         </article>
 
+
+
+
+
+
         <article className="mb-6 bg-gray-900 p-4 rounded-lg">
           <h3 className="text-xl font-semibold mb-2 text-blue-400">4. Monitoring & Detection</h3>
           
@@ -417,6 +443,11 @@ def fetch_url(request):
             <li>Flag DNS rebinding attempts</li>
           </ul>
         </article>
+
+
+
+
+
 
         <article className="mb-6 bg-gray-900 p-4 rounded-lg">
           <h3 className="text-xl font-semibold mb-2 text-blue-400">5. Cloud-Specific Protections</h3>
@@ -443,6 +474,26 @@ def fetch_url(request):
           </ul>
         </article>
       </section>
+
+
+
+
+
+      <div className="p-4 bg-gray-800 rounded-lg border-l-4 border-blue-500">
+        <h3 className="text-lg font-semibold mb-2 text-blue-400">SSRF Mitigation Checklist</h3>
+        <ul className="list-disc list-inside ml-4 space-y-1">
+          <li>Implement strict URL allowlisting</li>
+          <li>Validate and sanitize all user-supplied URLs</li>
+          <li>Block access to internal IP ranges and metadata services</li>
+          <li>Use network segmentation for sensitive backends</li>
+          <li>Enable cloud provider metadata protections (IMDSv2)</li>
+          <li>Monitor for suspicious outbound requests</li>
+          <li>Regularly test SSRF protections</li>
+        </ul>
+      </div>
+
+
+
 
       <section className="mb-12">
         <h2 className="text-3xl font-semibold mb-4">Additional Resources & References</h2>
@@ -490,18 +541,6 @@ def fetch_url(request):
         </div>
       </section>
 
-      <div className="p-4 bg-gray-800 rounded-lg border-l-4 border-yellow-500">
-        <h3 className="text-lg font-semibold mb-2 text-yellow-400">SSRF Mitigation Checklist</h3>
-        <ul className="list-disc list-inside ml-4 space-y-1">
-          <li>Implement strict URL allowlisting</li>
-          <li>Validate and sanitize all user-supplied URLs</li>
-          <li>Block access to internal IP ranges and metadata services</li>
-          <li>Use network segmentation for sensitive backends</li>
-          <li>Enable cloud provider metadata protections (IMDSv2)</li>
-          <li>Monitor for suspicious outbound requests</li>
-          <li>Regularly test SSRF protections</li>
-        </ul>
-      </div>
     </main>
   );
 }
