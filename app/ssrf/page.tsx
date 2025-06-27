@@ -2,9 +2,9 @@ export default function SSRFPage() {
   return (
 
 
-    
+
     <main className="p-8 max-w-4xl mx-auto font-sans text-white">
-      <h1 className="text-4xl font-extrabold mb-8 text-purple-600">Server-Side Request Forgery (SSRF) Comprehensive Guide</h1>
+      <h1 className="text-4xl font-extrabold mb-8 text-purple-600">Server-Side Request Forgery (SSRF)</h1>
 
 
 
@@ -479,7 +479,7 @@ def fetch_url(request):
 
 
 
-      <div className="p-4 bg-gray-800 rounded-lg border-l-4 border-blue-500">
+      <div className="mb-12 p-4 bg-gray-800 rounded-lg border-l-4 border-blue-500">
         <h3 className="text-lg font-semibold mb-2 text-blue-400">SSRF Mitigation Checklist</h3>
         <ul className="list-disc list-inside ml-4 space-y-1">
           <li>Implement strict URL allowlisting</li>
