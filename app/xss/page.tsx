@@ -777,6 +777,19 @@ new URL(userInput).toString();      // Validated URLs`}
         </article>
       </section>
 
+      <div className="p-4 bg-gray-800 rounded-lg border-l-4 border-blue-500">
+        <h3 className="text-lg font-semibold mb-2 text-blue-400">XSS Mitigation Checklist</h3>
+        <ul className="list-disc list-inside ml-4 space-y-1">
+          <li>Implement strict input validation (allowlist approach)</li>
+          <li>Use context-aware output encoding</li>
+          <li>Deploy Content Security Policy (CSP)</li>
+          <li>Set HttpOnly and Secure flags on cookies</li>
+          <li>Use modern frameworks with built-in protections</li>
+          <li>Regularly scan for vulnerabilities</li>
+          <li>Educate developers about secure coding practices</li>
+        </ul>
+      </div>
+
       <section className="mb-12">
         <h2 className="text-3xl font-semibold mb-4">Additional Resources & References</h2>
         <div className="space-y-6">
@@ -823,18 +836,6 @@ new URL(userInput).toString();      // Validated URLs`}
         </div>
       </section>
 
-      <div className="p-4 bg-gray-800 rounded-lg border-l-4 border-yellow-500">
-        <h3 className="text-lg font-semibold mb-2 text-yellow-400">XSS Mitigation Checklist</h3>
-        <ul className="list-disc list-inside ml-4 space-y-1">
-          <li>Implement strict input validation (allowlist approach)</li>
-          <li>Use context-aware output encoding</li>
-          <li>Deploy Content Security Policy (CSP)</li>
-          <li>Set HttpOnly and Secure flags on cookies</li>
-          <li>Use modern frameworks with built-in protections</li>
-          <li>Regularly scan for vulnerabilities</li>
-          <li>Educate developers about secure coding practices</li>
-        </ul>
-      </div>
     </main>
   );
 }
