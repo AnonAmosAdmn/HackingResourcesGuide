@@ -2,8 +2,16 @@
 // File: /app/xss/page.tsx
 export default function XSSPage() {
   return (
+
+
+
+
     <main className="p-8 max-w-4xl mx-auto font-sans text-white">
       <h1 className="text-4xl font-extrabold mb-8 text-purple-600">Cross-Site Scripting (XSS) Comprehensive Guide</h1>
+
+
+
+
 
       <section className="mb-8">
         <h2 className="text-2xl font-bold mb-3">What is XSS?</h2>
@@ -23,8 +31,14 @@ export default function XSSPage() {
         </div>
       </section>
 
+
+
+
+
       <section className="mb-10">
         <h2 className="text-3xl font-semibold mb-4 text-red-600">Red Team Techniques (Offensive)</h2>
+
+
 
         <article className="mb-6 bg-gray-900 p-4 rounded-lg">
           <h3 className="text-xl font-semibold mb-2 text-red-400">1. Reflected XSS</h3>
@@ -91,6 +105,12 @@ export default function XSSPage() {
             </div>
           </div>
         </article>
+
+
+
+
+
+
 
         <article className="mb-6 bg-gray-900 p-4 rounded-lg">
           <h3 className="text-xl font-semibold mb-2 text-red-400">2. Stored XSS (Persistent XSS)</h3>
@@ -183,6 +203,11 @@ export default function XSSPage() {
           </div>
         </article>
 
+
+
+
+
+
         <article className="mb-6 bg-gray-900 p-4 rounded-lg">
           <h3 className="text-xl font-semibold mb-2 text-red-400">3. DOM-Based XSS</h3>
           <p className="mb-3">
@@ -250,71 +275,115 @@ https://example.com/#<img src=x onerror=alert(1)>`}
           </div>
         </article>
 
+
+
+
+
+
+
         <article className="mb-6 bg-gray-900 p-4 rounded-lg">
-          <h3 className="text-xl font-semibold mb-2 text-red-400">4. Advanced XSS Techniques</h3>
+          <h3 className="text-xl font-semibold mb-2 text-red-400">4. Self-XSS</h3>
           <p className="mb-3">
-            Advanced XSS techniques bypass security controls and work in restricted environments. These methods are often used when standard payloads are blocked.
+            Self-XSS is a social engineering attack in which a victim is tricked into executing malicious scripts in their own browser console. Although it doesnt exploit a vulnerability in the application directly, it can lead to account compromise, data theft, or malware installation by abusing the user's trust and access.
           </p>
-          
+
           <div className="space-y-4">
             <div>
-              <h4 className="font-medium mb-1">Polyglot Payloads:</h4>
+              <h4 className="font-medium mb-1">Example Scenario:</h4>
               <pre className="bg-gray-700 p-3 rounded overflow-auto">
-{`javascript:/*--></title></style></textarea>
-</script></xmp><svg/onload='+/"/+/onmouseover=1/+/[*/[]/+alert(1)//'>`}
+{`// Message shown in a phishing page or chat:
+"Paste this code into your browser console to get free credits!"
+
+// Malicious code:
+fetch('/api/transfer', {
+  method: 'POST',
+  body: JSON.stringify({ amount: 5000, to: 'attacker' }),
+  credentials: 'include'
+})`}
               </pre>
-              <p className="text-sm text-gray-400 mt-1">Works in multiple contexts (HTML, JavaScript, SVG) simultaneously</p>
+              <p className="text-sm text-gray-400 mt-1">
+                Trick convinces users to execute malicious requests using their own session.
+              </p>
             </div>
 
-            <div>
-              <h4 className="font-medium mb-1">CSP Bypasses:</h4>
-              <div className="space-y-2">
-                <pre className="bg-gray-700 p-3 rounded overflow-auto">
-{`// If 'unsafe-eval' is allowed:
-<script>
-  location='javascript:alert\x281\x29'
-</script>`}
-                </pre>
-                <pre className="bg-gray-700 p-3 rounded overflow-auto">
-{`// If AngularJS is present:
-{{constructor.constructor('alert(1)')()}}`}
-                </pre>
-                <pre className="bg-gray-700 p-3 rounded overflow-auto">
-{`// If JSONP endpoints are allowed:
-<script src="/api/user?callback=alert(1)//"></script>`}
-                </pre>
-              </div>
-            </div>
-
-            <div>
-              <h4 className="font-medium mb-1">Exploitation Frameworks:</h4>
-              <ul className="list-disc list-inside ml-4 space-y-2">
-                <li>
-                  <strong>BeEF (Browser Exploitation Framework):</strong>
-                  <ul className="list-disc list-inside ml-6 text-sm text-gray-400">
-                    <li>Hook browsers and execute complex attacks</li>
-                    <li>Includes modules for fingerprinting, social engineering, and exploitation</li>
-                  </ul>
-                </li>
-                <li>
-                  <strong>XSS Hunter:</strong>
-                  <ul className="list-disc list-inside ml-6 text-sm text-gray-400">
-                    <li>Captures blind XSS triggers with screenshots and DOM data</li>
-                    <li>Provides notification when payloads execute</li>
-                  </ul>
-                </li>
-                <li>
-                  <strong>XSStrike:</strong>
-                  <ul className="list-disc list-inside ml-6 text-sm text-gray-400">
-                    <li>Automated XSS detection with fuzzing and AI</li>
-                    <li>Bypasses WAFs with contextual analysis</li>
-                  </ul>
-                </li>
+            <div className="p-3 bg-red-900/30 rounded">
+              <h4 className="font-medium mb-2">Why It Works:</h4>
+              <ul className="list-disc list-inside ml-4 space-y-1">
+                <li>User is authenticated and has elevated permissions (e.g., admin or payment access).</li>
+                <li>JavaScript executes in the context of the user's session and domain.</li>
+                <li>Trust-based platforms (e.g., gaming or crypto sites) are commonly targeted.</li>
               </ul>
             </div>
+
           </div>
         </article>
+
+
+
+
+
+
+        <article className="mb-6 bg-gray-900 p-4 rounded-lg">
+          <h3 className="text-xl font-semibold mb-2 text-red-400">5. Mutated XSS (mXSS)</h3>
+          <p className="mb-3">
+            Mutated XSS occurs when seemingly harmless input is transformed by the browser or DOM parser into executable JavaScript. Unlike traditional XSS, the original payload does not look dangerous — it becomes malicious only after being interpreted by the browser. This makes mXSS hard to detect and filter.
+          </p>
+
+          <div className="space-y-4">
+            <div>
+              <h4 className="font-medium mb-1">Example Payload:</h4>
+              <pre className="bg-gray-700 p-3 rounded overflow-auto">
+{`<svg><desc>&lt;script&gt;alert(1)&lt;/script&gt;</desc></svg>`}
+              </pre>
+              <p className="text-sm text-gray-400 mt-1">
+                The input looks harmless when stored, but is reinterpreted by the browser and executed as a script.
+              </p>
+            </div>
+
+            <div>
+              <h4 className="font-medium mb-1">How It Works:</h4>
+              <ul className="list-disc list-inside ml-4 space-y-1">
+                <li>The browser “fixes” malformed HTML and reconstructs DOM elements differently than intended.</li>
+                <li>The mutated structure introduces executable elements like <code>&lt;script&gt;</code> or event handlers.</li>
+                <li>Server-side filters may approve input that only becomes dangerous after DOM parsing.</li>
+              </ul>
+            </div>
+
+            <div className="p-3 bg-red-900/30 rounded">
+              <h4 className="font-medium mb-1">Detection Tips:</h4>
+              <ul className="list-disc list-inside ml-4 space-y-1">
+                <li>Use a live DOM inspection tool (e.g., Chrome DevTools) to see what the browser actually renders.</li>
+                <li>Test for injection in non-standard tags like <code>&lt;svg&gt;</code>, <code>&lt;math&gt;</code>, or <code>&lt;foreignObject&gt;</code>.</li>
+                <li>Tools like DOMPurify may not protect against mXSS if improperly configured.</li>
+                <li>Look for transformations of HTML entities into real tags.</li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="font-medium mb-1">Common mXSS Vectors:</h4>
+              <ul className="list-disc list-inside ml-4 space-y-1">
+                <li><code>&lt;svg&gt;&lt;desc&gt;&lt;script&gt;alert(1)&lt;/script&gt;&lt;/desc&gt;&lt;/svg&gt;</code></li>
+                <li><code>&lt;math href="javascript:alert(1)"&gt;&lt;/math&gt;</code></li>
+                <li><code>&lt;title&gt;&amp;lt;script&amp;gt;alert(1)&amp;lt;/script&amp;gt;&lt;/title&gt;</code></li>
+              </ul>
+            </div>
+
+          </div>
+        </article>
+
+
+
+
       </section>
+
+
+
+
+
+
+
+
+
 
       <section className="mb-10">
         <h2 className="text-3xl font-semibold mb-4 text-blue-600">Blue Team Defenses (Defensive)</h2>
