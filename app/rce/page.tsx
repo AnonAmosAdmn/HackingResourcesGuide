@@ -173,7 +173,7 @@ pickle.dump(RCE(), open('payload.pkl','wb'))`}
         </article>
 
         <article className="mb-6 bg-gray-900 p-4 rounded-lg">
-          <h3 className="text-xl font-semibold mb-2 text-red-400">5. RCE Tools & Payloads</h3>
+          <h3 className="text-xl font-semibold mb-2 text-red-400">RCE Tools & Payloads</h3>
 
           <h4 className="font-medium mb-1 mt-3">Exploitation Frameworks</h4>
           <ul className="list-disc list-inside ml-4 space-y-1">
