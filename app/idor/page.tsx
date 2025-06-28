@@ -12,7 +12,7 @@ export default function IDORPage() {
           Insecure Direct Object Reference (IDOR) occurs when an application provides direct access to objects based on user-supplied input without proper authorization checks.
         </p>
         <div className="mt-4 p-4 bg-gray-800 rounded-lg">
-          <h3 className="text-lg font-semibold mb-2 text-orange-300">IDOR Impact Severity:</h3>
+          <h3 className="text-lg font-semibold mb-2 text-orange-300">1. IDOR Impact Severity:</h3>
           <ul className="list-disc list-inside space-y-1">
             <li>Unauthorized data access (PII, financial records, etc.)</li>
             <li>Data modification or deletion</li>
@@ -68,7 +68,7 @@ GET /documents/1002`}
 
 
         <article className="mb-6 bg-gray-900 p-4 rounded-lg">
-          <h3 className="text-xl font-semibold mb-2 text-red-600">Horizontal IDOR</h3>
+          <h3 className="text-xl font-semibold mb-2 text-red-600">2. Horizontal IDOR</h3>
           <p className="mb-3">
             Horizontal IDOR occurs when a user is able to access or manipulate data belonging to another user with the same privilege level by modifying object references like user IDs. This allows attackers to bypass authorization by impersonating peers.
           </p>
@@ -108,7 +108,7 @@ GET /profile/view?user_id=1002`}
 
 
         <article className="mb-6 bg-gray-900 p-4 rounded-lg">
-          <h3 className="text-xl font-semibold mb-2 text-red-600">Vertical IDOR</h3>
+          <h3 className="text-xl font-semibold mb-2 text-red-600">3. Vertical IDOR</h3>
           <p className="mb-3">
             Vertical IDOR happens when a lower-privileged user gains access to resources or functionality meant only for higher-privileged roles (e.g., admin-only pages or actions) by manipulating direct object references without proper authorization checks.
           </p>
@@ -151,7 +151,7 @@ GET /profile/view?user_id=1002`}
 
 
         <article className="mb-6 bg-gray-900 p-4 rounded-lg">
-          <h3 className="text-xl font-semibold mb-2 text-red-600">Indirect IDOR</h3>
+          <h3 className="text-xl font-semibold mb-2 text-red-600">4. Indirect IDOR</h3>
           <p className="mb-3">
             Indirect IDOR occurs when applications use indirect references—like tokens, hashes, or UUIDs—instead of direct object IDs, but these references are predictable, guessable, or insufficiently protected, allowing attackers to bypass authorization controls.
           </p>
@@ -193,7 +193,7 @@ GET /files/download?token=abc123def457`}
 
 
         <article className="mb-6 bg-gray-900 p-4 rounded-lg">
-          <h3 className="text-xl font-semibold mb-2 text-red-600">Mass Assignment</h3>
+          <h3 className="text-xl font-semibold mb-2 text-red-600">5. Mass Assignment</h3>
           <p className="mb-3">
             Mass Assignment vulnerabilities occur when an application blindly binds user-controlled input (such as JSON or form data) to internal objects without filtering or validating which fields can be modified. This allows attackers to overwrite sensitive or protected properties, like roles or permissions.
           </p>
