@@ -23,13 +23,12 @@ export default function RCEPage() {
           </ul>
         </div>
       </section>
+
+
+
+
+
       
-      <section className="mb-8">
-        <h2 className="text-2xl font-bold mb-3">What is RCE?</h2>
-        <p className="leading-relaxed">
-          Remote Code Execution is a critical vulnerability that allows attackers to execute arbitrary code on a target system or application.
-        </p>
-      </section>
     </div>
   );
 }
