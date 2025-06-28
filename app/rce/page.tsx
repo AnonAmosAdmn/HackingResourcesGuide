@@ -202,6 +202,81 @@ pickle.dump(RCE(), open('payload.pkl','wb'))`}
 
 
 
+
+
+      <section className="mb-10">
+
+
+
+
+
+
+
+  
+
+        <article className="mb-6 bg-gray-900 p-4 rounded-lg">
+          <h3 className="text-xl font-semibold mb-2 text-blue-400">3. System Hardening</h3>
+          
+          <h4 className="font-medium mb-1 mt-3">Memory Protections</h4>
+          <ul className="list-disc list-inside ml-4 space-y-1">
+            <li>DEP (Data Execution Prevention)</li>
+            <li>ASLR (Address Space Layout Randomization)</li>
+            <li>Stack canaries</li>
+          </ul>
+
+          <h4 className="font-medium mb-1 mt-3">Least Privilege</h4>
+          <ul className="list-disc list-inside ml-4 space-y-1">
+            <li>Run services with minimal permissions</li>
+            <li>Use containers with restricted capabilities</li>
+            <li>Implement proper sandboxing</li>
+          </ul>
+        </article>
+
+        <article className="mb-6 bg-gray-900 p-4 rounded-lg">
+          <h3 className="text-xl font-semibold mb-2 text-blue-400">4. Monitoring & Detection</h3>
+          
+          <h4 className="font-medium mb-1 mt-3">SIEM Rules</h4>
+          <ul className="list-disc list-inside ml-4 space-y-1">
+            <li>Detect suspicious process execution</li>
+            <li>Alert on shell spawning patterns</li>
+            <li>Monitor for unusual network connections</li>
+          </ul>
+
+          <h4 className="font-medium mb-1 mt-3">Endpoint Protection</h4>
+          <ul className="list-disc list-inside ml-4 space-y-1">
+            <li>Behavioral analysis of processes</li>
+            <li>Memory protection modules</li>
+            <li>Exploit prevention techniques</li>
+          </ul>
+        </article>
+
+        <article className="mb-6 bg-gray-900 p-4 rounded-lg">
+          <h3 className="text-xl font-semibold mb-2 text-blue-400">5. Patch Management</h3>
+          
+          <h4 className="font-medium mb-1 mt-3">Vulnerability Scanning</h4>
+          <ul className="list-disc list-inside ml-4 space-y-1">
+            <li>Regular dependency scanning (OWASP DC)</li>
+            <li>Static and dynamic code analysis</li>
+            <li>Binary hardening checks</li>
+          </ul>
+
+          <h4 className="font-medium mb-1 mt-3">Patch Prioritization</h4>
+          <ul className="list-disc list-inside ml-4 space-y-1">
+            <li>CVSS scoring for RCE vulnerabilities</li>
+            <li>Zero-day mitigation strategies</li>
+            <li>Emergency patch procedures</li>
+          </ul>
+        </article>
+      </section>
+
+
+
+
+
+
+      
+
+
       <div className="mb-12 p-4 bg-gray-800 rounded-lg border-l-4 border-blue-500">
         <h3 className="text-lg font-semibold mb-2 text-blue-400">RCE Mitigation Checklist</h3>
         <ul className="list-disc list-inside ml-4 space-y-1">
