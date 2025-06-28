@@ -375,7 +375,7 @@ fetch('/api/transfer', {
 
 
         <article className="mb-6 bg-gray-900 p-4 rounded-lg">
-          <h3 className="text-xl font-semibold mb-2 text-yellow-400">XSS Tools & Automation</h3>
+          <h3 className="text-xl font-semibold mb-2 text-red-400">XSS Tools & Automation</h3>
 
           <h4 className="font-medium mb-1 mt-3">Discovery & Scanning</h4>
           <ul className="list-disc list-inside ml-4 space-y-1 text-gray-300">
