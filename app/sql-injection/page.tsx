@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 // File: /app/sql-injection/page.tsx
 export default function SQLInjectionPage() {
   return (
