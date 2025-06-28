@@ -340,6 +340,38 @@ Cookie: session=valid_user_session_token`}
 
 
 
+
+
+
+        <article className="mb-6 bg-gray-900 p-4 rounded-lg">
+          <h3 className="text-xl font-semibold mb-2 text-red-400">SSRF Tools & Automation</h3>
+
+          <h4 className="font-medium mb-1 mt-3">Discovery & Scanning</h4>
+          <ul className="list-disc list-inside ml-4 space-y-1">
+            <li>Burp Suite (with active scanning for SSRF vulnerabilities)</li>
+            <li>SSRFmap (Automated SSRF scanner and exploitation tool)</li>
+            <li>gf patterns (with custom SSRF regex patterns for fast detection)</li>
+          </ul>
+
+          <h4 className="font-medium mb-1 mt-3">Exploitation & Payload Generation</h4>
+          <ul className="list-disc list-inside ml-4 space-y-1">
+            <li>SSRFmap (supports chaining, recursive SSRF exploitation)</li>
+            <li>Redirector and Burp Collaborator (for detecting OOB SSRF)</li>
+            <li>Inbuilt scripting with tools like Nuclei (custom SSRF templates)</li>
+          </ul>
+
+          <h4 className="font-medium mb-1 mt-3">Post-Exploitation & Analysis</h4>
+          <ul className="list-disc list-inside ml-4 space-y-1">
+            <li>Burp Collaborator (to catch outbound network calls)</li>
+            <li>SSRFmap Reporting (network mapping and logs)</li>
+            <li>Network sniffers (Wireshark, tcpdump) for internal traffic analysis</li>
+          </ul>
+        </article>
+
+
+
+
+
       </section>
 
 
