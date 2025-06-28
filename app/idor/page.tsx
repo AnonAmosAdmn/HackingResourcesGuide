@@ -26,112 +26,254 @@ export default function IDORPage() {
       <section className="mb-10">
         <h2 className="text-3xl font-semibold mb-4 text-red-600">Red Team Techniques (Offensive)</h2>
 
-        <article className="mb-6 bg-gray-900 p-4 rounded-lg">
-          <h3 className="text-xl font-semibold mb-2 text-red-400">1. Identification Techniques</h3>
-          
-          <h4 className="font-medium mb-1 mt-3">Common Parameters</h4>
-          <pre className="bg-gray-700 p-3 rounded overflow-auto">
-{`user_id
-account_id
-order_id
-document_id
-file_id
-transaction_id
-invoice_number`}
-          </pre>
 
-          <h4 className="font-medium mb-1 mt-3">Testing Methodology</h4>
+        <article className="mb-6 bg-gray-900 p-4 rounded-lg">
+          <h3 className="text-xl font-semibold mb-2 text-red-600">Basic IDOR</h3>
+          <p className="mb-3">
+            Basic Insecure Direct Object Reference (IDOR) vulnerabilities occur when an application exposes a direct reference to an internal object, such as a file, database record, or user account, without enforcing proper authorization checks.
+            Attackers can manipulate these references to access or modify data they shouldn’t be able to.
+          </p>
+
+          <div className="space-y-4">
+            <div>
+              <h4 className="font-medium mb-1">Example URL Manipulation:</h4>
+              <pre className="bg-gray-700 p-3 rounded overflow-auto">
+{`GET /documents/1001
+// Attacker changes URL to access another user's document:
+GET /documents/1002`}
+              </pre>
+              <p className="text-sm text-gray-400 mt-1">By modifying the document ID, the attacker can access unauthorized content.</p>
+            </div>
+
+            <div>
+              <h4 className="font-medium mb-1">Common Attack Vectors:</h4>
+              <ul className="list-disc list-inside ml-4 space-y-1 text-gray-300">
+                <li>Predictable or sequential object IDs</li>
+                <li>Insufficient authorization checks on object access</li>
+                <li>Direct references exposed in URLs, forms, or APIs</li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="font-medium mb-1">Mitigation Techniques:</h4>
+              <ul className="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                <li>Implement strict authorization checks on every object access</li>
+                <li>Use indirect references or mapping (e.g., UUIDs, tokens)</li>
+                <li>Avoid predictable IDs and enforce access control by user role</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+
+
+        <article className="mb-6 bg-gray-900 p-4 rounded-lg">
+          <h3 className="text-xl font-semibold mb-2 text-red-600">Horizontal IDOR</h3>
+          <p className="mb-3">
+            Horizontal IDOR occurs when a user is able to access or manipulate data belonging to another user with the same privilege level by modifying object references like user IDs. This allows attackers to bypass authorization by impersonating peers.
+          </p>
+
+          <div className="space-y-4">
+            <div>
+              <h4 className="font-medium mb-1">Example Scenario:</h4>
+              <pre className="bg-gray-700 p-3 rounded overflow-auto">
+{`GET /profile/view?user_id=1001
+// Attacker changes user_id to view another user's profile:
+GET /profile/view?user_id=1002`}
+              </pre>
+              <p className="text-sm text-gray-400 mt-1">By changing the user ID parameter, the attacker accesses another user’s private information.</p>
+            </div>
+
+            <div>
+              <h4 className="font-medium mb-1">Common Indicators:</h4>
+              <ul className="list-disc list-inside ml-4 space-y-1 text-gray-300">
+                <li>URLs or APIs exposing user-identifiers in parameters</li>
+                <li>Lack of verification that the requested resource belongs to the authenticated user</li>
+                <li>Similar privilege levels for both attacker and victim accounts</li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="font-medium mb-1">Prevention Measures:</h4>
+              <ul className="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                <li>Always verify resource ownership before granting access</li>
+                <li>Use session-based identity checks rather than user-supplied parameters</li>
+                <li>Implement role-based access controls (RBAC) to restrict data visibility</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+
+
+
+        <article className="mb-6 bg-gray-900 p-4 rounded-lg">
+          <h3 className="text-xl font-semibold mb-2 text-red-600">Vertical IDOR</h3>
+          <p className="mb-3">
+            Vertical IDOR happens when a lower-privileged user gains access to resources or functionality meant only for higher-privileged roles (e.g., admin-only pages or actions) by manipulating direct object references without proper authorization checks.
+          </p>
+
+          <div className="space-y-4">
+            <div>
+              <h4 className="font-medium mb-1">Example Scenario:</h4>
+              <pre className="bg-gray-700 p-3 rounded overflow-auto">
+{`POST /admin/deleteUser
+{
+  "userId": 123
+}  // submitted by a regular user`}
+              </pre>
+              <p className="text-sm text-gray-400 mt-1">
+                A non-admin user is able to perform an admin-only action by directly calling privileged endpoints.
+              </p>
+            </div>
+
+            <div>
+              <h4 className="font-medium mb-1">Common Indicators:</h4>
+              <ul className="list-disc list-inside ml-4 space-y-1 text-gray-300">
+                <li>Privileged functions accessible without role checks</li>
+                <li>Endpoints accepting object references without verifying user privilege</li>
+                <li>Role escalation possible by changing IDs or parameters</li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="font-medium mb-1">Mitigation Techniques:</h4>
+              <ul className="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                <li>Enforce strict role-based access control (RBAC) on all endpoints</li>
+                <li>Validate user privileges before processing sensitive requests</li>
+                <li>Use separate APIs or endpoints for admin-level functions</li>
+                <li>Audit logs and alerts on privilege escalation attempts</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+
+
+        <article className="mb-6 bg-gray-900 p-4 rounded-lg">
+          <h3 className="text-xl font-semibold mb-2 text-red-600">Indirect IDOR</h3>
+          <p className="mb-3">
+            Indirect IDOR occurs when applications use indirect references—like tokens, hashes, or UUIDs—instead of direct object IDs, but these references are predictable, guessable, or insufficiently protected, allowing attackers to bypass authorization controls.
+          </p>
+
+          <div className="space-y-4">
+            <div>
+              <h4 className="font-medium mb-1">Example Scenario:</h4>
+              <pre className="bg-gray-700 p-3 rounded overflow-auto">
+{`GET /files/download?token=abc123def456
+// Attacker guesses or enumerates tokens:
+GET /files/download?token=abc123def457`}
+              </pre>
+              <p className="text-sm text-gray-400 mt-1">
+                Although the app uses tokens to obscure real IDs, predictable tokens can still be exploited to access unauthorized resources.
+              </p>
+            </div>
+
+            <div>
+              <h4 className="font-medium mb-1">Common Signs:</h4>
+              <ul className="list-disc list-inside ml-4 space-y-1 text-gray-300">
+                <li>Use of opaque or indirect references without proper validation</li>
+                <li>Weak or guessable token generation schemes</li>
+                <li>Lack of authorization checks tied to the actual user or session</li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="font-medium mb-1">Prevention Strategies:</h4>
+              <ul className="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                <li>Use strong, cryptographically secure random tokens</li>
+                <li>Validate authorization on every request regardless of token</li>
+                <li>Implement token expiration and revocation mechanisms</li>
+                <li>Consider user-specific tokens or session binding</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+
+
+        <article className="mb-6 bg-gray-900 p-4 rounded-lg">
+          <h3 className="text-xl font-semibold mb-2 text-red-600">Mass Assignment</h3>
+          <p className="mb-3">
+            Mass Assignment vulnerabilities occur when an application blindly binds user-controlled input (such as JSON or form data) to internal objects without filtering or validating which fields can be modified. This allows attackers to overwrite sensitive or protected properties, like roles or permissions.
+          </p>
+
+          <div className="space-y-4">
+            <div>
+              <h4 className="font-medium mb-1">Example Exploit:</h4>
+              <pre className="bg-gray-700 p-3 rounded overflow-auto">
+{`PATCH /user/profile
+{
+  "username": "attacker",
+  "role": "admin"  // unauthorized field modification
+}`}
+              </pre>
+              <p className="text-sm text-gray-400 mt-1">
+                The attacker modifies the user role by including protected fields in the request payload that the backend mistakenly trusts.
+              </p>
+            </div>
+
+            <div>
+              <h4 className="font-medium mb-1">Common Causes:</h4>
+              <ul className="list-disc list-inside ml-4 space-y-1 text-gray-300">
+                <li>Automatic binding of all request parameters to model objects</li>
+                <li>Lack of input validation or whitelist filtering</li>
+                <li>Exposing sensitive fields to client input unintentionally</li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="font-medium mb-1">Mitigation Techniques:</h4>
+              <ul className="list-disc list-inside ml-4 space-y-1 text-gray-400">
+                <li>Whitelist allowed fields for binding explicitly</li>
+                <li>Use dedicated DTOs (Data Transfer Objects) or input models</li>
+                <li>Implement strict server-side validation and authorization</li>
+                <li>Avoid exposing sensitive fields in client-side forms or APIs</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+
+
+        <article className="mb-6 bg-gray-900 p-4 rounded-lg">
+          <h3 className="text-xl font-semibold mb-2 text-red-600">IDOR Tools & Automation</h3>
+
+          <h4 className="font-medium mb-1 mt-3">Discovery & Scanning</h4>
           <ul className="list-disc list-inside ml-4 space-y-1">
-            <li>Increment numeric IDs (1001 → 1002)</li>
-            <li>Try predictable patterns (INV-100 → INV-101)</li>
-            <li>Test UUIDs from other accounts</li>
-            <li>Check both GET and POST requests</li>
+            <li>Burp Suite (with active scanning and parameter manipulation)</li>
+            <li>OWASP ZAP (automated scanning with custom IDOR detection rules)</li>
+            <li>ffuf and wfuzz (for brute forcing object IDs and endpoints)</li>
+          </ul>
+
+          <h4 className="font-medium mb-1 mt-3">Exploitation & Payload Generation</h4>
+          <ul className="list-disc list-inside ml-4 space-y-1">
+            <li>Burp Intruder (custom payloads to test object reference enumeration)</li>
+            <li>Param Miner (detects hidden parameters and IDOR vectors)</li>
+            <li>Custom scripts for mass assignment and role escalation payloads</li>
+          </ul>
+
+          <h4 className="font-medium mb-1 mt-3">Post-Exploitation & Analysis</h4>
+          <ul className="list-disc list-inside ml-4 space-y-1">
+            <li>Burp Collaborator (to detect OOB data leaks)</li>
+            <li>Manual access pattern analysis and response comparison</li>
+            <li>Logging tools (Splunk, ELK) to monitor unauthorized access attempts</li>
           </ul>
         </article>
 
-        <article className="mb-6 bg-gray-900 p-4 rounded-lg">
-          <h3 className="text-xl font-semibold mb-2 text-red-400">2. Advanced Exploitation</h3>
-          
-          <h4 className="font-medium mb-1 mt-3">Mass Data Extraction</h4>
-          <pre className="bg-gray-700 p-3 rounded overflow-auto">
-{`# Automated script example
-for id in {1000..2000}; do
-  curl "https://example.com/api/user/$id/profile" >> data.txt
-done`}
-          </pre>
 
-          <h4 className="font-medium mb-1 mt-3">Chained Vulnerabilities</h4>
-          <pre className="bg-gray-700 p-3 rounded overflow-auto">
-{`1. Find IDOR in profile endpoint
-2. Extract API keys from profiles
-3. Use keys to access admin endpoints`}
-          </pre>
-        </article>
 
-        <article className="mb-6 bg-gray-900 p-4 rounded-lg">
-          <h3 className="text-xl font-semibold mb-2 text-red-400">3. Bypass Techniques</h3>
-          
-          <h4 className="font-medium mb-1 mt-3">Parameter Tampering</h4>
-          <pre className="bg-gray-700 p-3 rounded overflow-auto">
-{`# Change parameter names
-user_id → account_id
-id → uid
 
-# Add parameters
-?user_id=1001&debug=true`}
-          </pre>
-
-          <h4 className="font-medium mb-1 mt-3">HTTP Method Switching</h4>
-          <pre className="bg-gray-700 p-3 rounded overflow-auto">
-{`GET /api/user/1001 → POST /api/user
-GET /file?id=123 → HEAD /file/123`}
-          </pre>
-        </article>
-
-        <article className="mb-6 bg-gray-900 p-4 rounded-lg">
-          <h3 className="text-xl font-semibold mb-2 text-red-400">4. Real-World Attack Scenarios</h3>
-          
-          <h4 className="font-medium mb-1 mt-3">Healthcare Data Leak</h4>
-          <pre className="bg-gray-700 p-3 rounded overflow-auto">
-{`1. Find patient_id parameter
-2. Increment to access other records
-3. Extract sensitive medical data`}
-          </pre>
-
-          <h4 className="font-medium mb-1 mt-3">E-commerce Fraud</h4>
-          <pre className="bg-gray-700 p-3 rounded overflow-auto">
-{`1. Find order_id parameter
-2. Modify to access other orders
-3. Extract payment details`}
-          </pre>
-        </article>
-
-        <article className="mb-6 bg-gray-900 p-4 rounded-lg">
-          <h3 className="text-xl font-semibold mb-2 text-red-400">5. Tools & Automation</h3>
-          
-          <h4 className="font-medium mb-1 mt-3">Discovery Tools</h4>
-          <ul className="list-disc list-inside ml-4 space-y-1">
-            <li>Burp Suite Scanner</li>
-            <li>OWASP ZAP</li>
-            <li>Param Miner</li>
-            <li>Arjun</li>
-          </ul>
-
-          <h4 className="font-medium mb-1 mt-3">Exploitation Tools</h4>
-          <ul className="list-disc list-inside ml-4 space-y-1">
-            <li>Burp Intruder</li>
-            <li>Postman/Insomnia</li>
-            <li>Custom Python scripts</li>
-          </ul>
-
-          <h4 className="font-medium mb-1 mt-3">Analysis Tools</h4>
-          <ul className="list-disc list-inside ml-4 space-y-1">
-            <li>jq for JSON processing</li>
-            <li>Browser developer tools</li>
-            <li>Network analyzers</li>
-          </ul>
-        </article>
       </section>
+
+
+
+
+
+
+
+
+
 
       <section className="mb-10">
         <h2 className="text-3xl font-semibold mb-4 text-blue-600">Blue Team Defenses (Defensive)</h2>
@@ -248,6 +390,23 @@ CREATE TABLE document_access (
         </article>
       </section>
 
+
+
+      <div className="p-4 bg-gray-800 rounded-lg border-l-4 border-blue-500">
+        <h3 className="text-lg font-semibold mb-2 text-blue-400">IDOR Mitigation Checklist</h3>
+        <ul className="list-disc list-inside ml-4 space-y-1">
+          <li>Implement proper authorization checks for all object accesses</li>
+          <li>Use indirect references (UUIDs, mapping tables)</li>
+          <li>Apply principle of least privilege</li>
+          <li>Log and monitor access to sensitive objects</li>
+          <li>Conduct regular security audits and code reviews</li>
+          <li>Implement rate limiting on sensitive endpoints</li>
+          <li>Use framework-provided security features</li>
+          <li>Educate developers about IDOR risks</li>
+        </ul>
+      </div>
+
+
       <section className="mb-12">
         <h2 className="text-3xl font-semibold mb-4">Additional Resources & References</h2>
         <div className="space-y-6">
@@ -294,19 +453,6 @@ CREATE TABLE document_access (
         </div>
       </section>
 
-      <div className="p-4 bg-gray-800 rounded-lg border-l-4 border-pink-500">
-        <h3 className="text-lg font-semibold mb-2 text-pink-400">IDOR Mitigation Checklist</h3>
-        <ul className="list-disc list-inside ml-4 space-y-1">
-          <li>Implement proper authorization checks for all object accesses</li>
-          <li>Use indirect references (UUIDs, mapping tables)</li>
-          <li>Apply principle of least privilege</li>
-          <li>Log and monitor access to sensitive objects</li>
-          <li>Conduct regular security audits and code reviews</li>
-          <li>Implement rate limiting on sensitive endpoints</li>
-          <li>Use framework-provided security features</li>
-          <li>Educate developers about IDOR risks</li>
-        </ul>
-      </div>
     </main>
   );
 }
