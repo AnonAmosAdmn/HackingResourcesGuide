@@ -307,7 +307,7 @@ public class RedirectController {
 
 
 
-      <div className="p-4 bg-gray-800 rounded-lg border-l-4 border-blue-500">
+      <div className="mb-12 p-4 bg-gray-800 rounded-lg border-l-4 border-blue-500">
         <h3 className="text-lg font-semibold mb-2 text-blue-400">Open Redirect Mitigation Checklist</h3>
         <ul className="list-disc list-inside ml-4 space-y-1">
           <li>Implement strict whitelist-based redirect validation</li>
