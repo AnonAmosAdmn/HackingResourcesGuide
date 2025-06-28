@@ -374,6 +374,38 @@ fetch('/api/transfer', {
 
 
 
+        <article className="mb-6 bg-gray-900 p-4 rounded-lg">
+          <h3 className="text-xl font-semibold mb-2 text-yellow-400">XSS Tools & Automation</h3>
+
+          <h4 className="font-medium mb-1 mt-3">Discovery & Scanning</h4>
+          <ul className="list-disc list-inside ml-4 space-y-1 text-gray-300">
+            <li>XSStrike – Advanced XSS detection and fuzzing tool</li>
+            <li>Katana – Web crawler that detects JavaScript endpoints</li>
+            <li>DalFox – Fast and powerful XSS scanner designed for automation</li>
+            <li>Burp Suite Scanner – Passive and active scanning for reflected/stored XSS</li>
+            <li>OWASP ZAP – Open-source scanner with XSS testing capabilities</li>
+          </ul>
+
+          <h4 className="font-medium mb-1 mt-3">Exploitation & Payload Generation</h4>
+          <ul className="list-disc list-inside ml-4 space-y-1 text-gray-300">
+            <li>XSStrike – Context-aware payload crafting and bypass techniques</li>
+            <li>XSS-Polyglots – Collections of payloads for different contexts (DOM, HTML, JS)</li>
+            <li>PayloadBox – Repository of ready-to-use XSS payloads</li>
+            <li>Burp Repeater – Manual testing and payload injection</li>
+          </ul>
+
+          <h4 className="font-medium mb-1 mt-3">Post-Exploitation & Reporting</h4>
+          <ul className="list-disc list-inside ml-4 space-y-1 text-gray-300">
+            <li>BeEF – Browser Exploitation Framework for hooking and post-XSS control</li>
+            <li>XSS Hunter – Tracks and logs XSS payload execution with out-of-band callbacks</li>
+            <li>Custom alerting and webhook delivery for data exfiltration or proof-of-concept</li>
+            <li>Burp Suite – Report generation and export options</li>
+          </ul>
+        </article>
+
+
+
+
       </section>
 
 
