@@ -3,7 +3,7 @@ export default function ClickjackingPage() {
   return (
     <main className="p-8 max-w-4xl mx-auto font-sans text-white">
       <h1 className="text-4xl font-extrabold mb-8 text-purple-600">
-        Clickjacking (UI Redress Attack) Comprehensive Guide
+        Clickjacking (UI Redress Attack)
       </h1>
 
       <section className="mb-8">
@@ -214,6 +214,29 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         </article>
       </section>
 
+
+
+
+
+      <div className="mb-12 p-4 bg-gray-800 rounded-lg border-l-4 border-blue-500">
+        <h3 className="text-lg font-semibold mb-2 text-blue-400">Clickjacking Mitigation Checklist</h3>
+        <ul className="list-disc list-inside ml-4 space-y-1">
+          <li>Implement X-Frame-Options header (DENY or SAMEORIGIN)</li>
+          <li>Use Content-Security-Policy frame-ancestors directive</li>
+          <li>Add frame-busting JavaScript as secondary defense</li>
+          <li>Require confirmation for sensitive actions</li>
+          <li>Educate users about potential clickjacking risks</li>
+          <li>Regularly test your defenses against clickjacking</li>
+          <li>Monitor for frame-busting script failures</li>
+          <li>Implement short session timeouts for sensitive applications</li>
+        </ul>
+      </div>
+
+
+
+
+
+
       <section className="mb-12">
         <h2 className="text-3xl font-semibold mb-4">Additional Resources & References</h2>
         <div className="space-y-6">
@@ -260,19 +283,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         </div>
       </section>
 
-      <div className="p-4 bg-gray-800 rounded-lg border-l-4 border-purple-500">
-        <h3 className="text-lg font-semibold mb-2 text-purple-400">Clickjacking Mitigation Checklist</h3>
-        <ul className="list-disc list-inside ml-4 space-y-1">
-          <li>Implement X-Frame-Options header (DENY or SAMEORIGIN)</li>
-          <li>Use Content-Security-Policy frame-ancestors directive</li>
-          <li>Add frame-busting JavaScript as secondary defense</li>
-          <li>Require confirmation for sensitive actions</li>
-          <li>Educate users about potential clickjacking risks</li>
-          <li>Regularly test your defenses against clickjacking</li>
-          <li>Monitor for frame-busting script failures</li>
-          <li>Implement short session timeouts for sensitive applications</li>
-        </ul>
-      </div>
     </main>
   );
 }
