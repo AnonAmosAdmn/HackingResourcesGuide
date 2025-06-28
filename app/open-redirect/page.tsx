@@ -3,7 +3,7 @@ export default function OpenRedirectPage() {
   return (
     <main className="p-8 max-w-4xl mx-auto font-sans text-white">
       <h1 className="text-4xl font-extrabold mb-8 text-purple-600">
-        Open Redirect Comprehensive Guide
+        Open Redirect
       </h1>
 
       <section className="mb-8">
@@ -138,7 +138,7 @@ data:text/html,<script>alert(1)</script>`}
         </article>
 
         <article className="bg-gray-900 p-4 rounded-lg">
-          <h3 className="text-xl font-semibold mb-2 text-red-400">5. Tools & Automation</h3>
+          <h3 className="text-xl font-semibold mb-2 text-red-400"> Tools & Automation</h3>
           <div className="space-y-4">
             <div>
               <h4 className="font-medium mb-1">Discovery Tools</h4>
@@ -304,6 +304,25 @@ public class RedirectController {
         </article>
       </section>
 
+
+
+
+      <div className="p-4 bg-gray-800 rounded-lg border-l-4 border-blue-500">
+        <h3 className="text-lg font-semibold mb-2 text-blue-400">Open Redirect Mitigation Checklist</h3>
+        <ul className="list-disc list-inside ml-4 space-y-1">
+          <li>Implement strict whitelist-based redirect validation</li>
+          <li>Prefer relative URLs over absolute URLs</li>
+          <li>Use framework-provided safe redirect functions</li>
+          <li>Add security headers (CSP, Referrer-Policy)</li>
+          <li>Monitor for suspicious redirect patterns</li>
+          <li>Educate users about external link risks</li>
+          <li>Regularly audit all redirect functionality</li>
+          <li>Implement WAF rules for common bypass techniques</li>
+        </ul>
+      </div>
+
+
+      
       <section className="mb-12">
         <h2 className="text-3xl font-semibold mb-4">Additional Resources & References</h2>
         <div className="space-y-6">
@@ -340,19 +359,6 @@ public class RedirectController {
         </div>
       </section>
 
-      <div className="p-4 bg-gray-800 rounded-lg border-l-4 border-purple-500">
-        <h3 className="text-lg font-semibold mb-2 text-purple-400">Open Redirect Mitigation Checklist</h3>
-        <ul className="list-disc list-inside ml-4 space-y-1">
-          <li>Implement strict whitelist-based redirect validation</li>
-          <li>Prefer relative URLs over absolute URLs</li>
-          <li>Use framework-provided safe redirect functions</li>
-          <li>Add security headers (CSP, Referrer-Policy)</li>
-          <li>Monitor for suspicious redirect patterns</li>
-          <li>Educate users about external link risks</li>
-          <li>Regularly audit all redirect functionality</li>
-          <li>Implement WAF rules for common bypass techniques</li>
-        </ul>
-      </div>
     </main>
   );
 }
