@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 // File: /app/csrf/page.tsx
 export default function CSRFPage() {
   return (
