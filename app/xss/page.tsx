@@ -7,7 +7,7 @@ export default function XSSPage() {
 
 
     <main className="p-8 max-w-4xl mx-auto font-sans text-white">
-      <h1 className="text-4xl font-extrabold mb-8 text-purple-600">Cross-Site Scripting (XSS) Comprehensive Guide</h1>
+      <h1 className="text-4xl font-extrabold mb-8 text-purple-600">Cross-Site Scripting (XSS)</h1>
 
 
 
