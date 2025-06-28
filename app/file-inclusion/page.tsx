@@ -207,15 +207,6 @@ http://example.com/index.php?page=../../../../var/log/apache2/access.log&cmd=id`
               </ul>
             </div>
 
-            <div>
-              <h4 className="font-medium mb-1">Mitigation Strategies:</h4>
-              <ul className="list-disc list-inside ml-4 space-y-1">
-                <li>Restrict file inclusion to safe, whitelisted paths</li>
-                <li>Sanitize and validate all user inputs</li>
-                <li>Configure strict file permissions on log files</li>
-                <li>Disable remote code execution via file inclusion</li>
-              </ul>
-            </div>
           </div>
         </article>
 
@@ -325,7 +316,7 @@ open_basedir = /var/www/html/`}
       </section>
 
       <div className="mb-12 p-4 bg-gray-800 rounded-lg border-l-4 border-blue-500">
-        <h3 className="text-lg font-semibold mb-2 text-blue-400">Security Best Practices</h3>
+        <h3 className="text-lg font-semibold mb-2 text-blue-400">Mitigation Strategies:</h3>
         <ul className="list-disc list-inside ml-4 space-y-1">
           <li>Never include files based on unvalidated user input</li>
           <li>Use whitelists for allowed files/paths</li>
