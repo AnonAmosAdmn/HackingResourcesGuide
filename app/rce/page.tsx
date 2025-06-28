@@ -202,6 +202,65 @@ pickle.dump(RCE(), open('payload.pkl','wb'))`}
 
 
 
+      <div className="mb-12 p-4 bg-gray-800 rounded-lg border-l-4 border-blue-500">
+        <h3 className="text-lg font-semibold mb-2 text-blue-400">RCE Mitigation Checklist</h3>
+        <ul className="list-disc list-inside ml-4 space-y-1">
+          <li>Implement strict input validation</li>
+          <li>Use safe APIs for command execution</li>
+          <li>Apply proper output encoding</li>
+          <li>Enable memory protection mechanisms</li>
+          <li>Keep all components patched</li>
+          <li>Monitor for suspicious execution patterns</li>
+          <li>Conduct regular security testing</li>
+        </ul>
+      </div>
+
+      <section className="mb-12">
+        <h2 className="text-3xl font-semibold mb-4">Additional Resources & References</h2>
+        <div className="space-y-6">
+          <div className="bg-gray-800 p-4 rounded-lg">
+            <h3 className="text-xl font-semibold mb-3 text-yellow-400">Learning Resources</h3>
+            <ul className="space-y-3">
+              <li>
+                <a href="https://owasp.org/www-community/attacks/Code_Injection" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">
+                  OWASP Code Injection — Comprehensive documentation
+                </a>
+              </li>
+              <li>
+                <a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Command%20Injection" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">
+                  PayloadsAllTheThings RCE — Cheat sheet
+                </a>
+              </li>
+              <li>
+                <a href="https://book.hacktricks.xyz/pentesting-web/command-injection" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">
+                  HackTricks RCE Techniques
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div className="bg-gray-800 p-4 rounded-lg">
+            <h3 className="text-xl font-semibold mb-3 text-yellow-400">Security Tools</h3>
+            <ul className="space-y-3">
+              <li>
+                <a href="https://www.metasploit.com/" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">
+                  Metasploit Framework — Exploitation toolkit
+                </a>
+              </li>
+              <li>
+                <a href="https://github.com/frohoff/ysoserial" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">
+                  ysoserial — Java deserialization payloads
+                </a>
+              </li>
+              <li>
+                <a href="https://revshells.com/" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">
+                  Reverse Shell Generator — Interactive payload creator
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
 
       
     </div>
