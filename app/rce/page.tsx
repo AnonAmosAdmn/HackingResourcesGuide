@@ -205,53 +205,59 @@ pickle.dump(RCE(), open('payload.pkl','wb'))`}
 
 
       <section className="mb-10">
-        <h2 className="text-3xl font-semibold mb-4 text-blue-600">Blue Team Defenses (Defensive)</h2>
-
-        <article className="mb-6 bg-gray-900 p-4 rounded-lg">
-          <h3 className="text-xl font-semibold mb-2 text-blue-400">1. Input Validation & Sanitization</h3>
-          
-          <h4 className="font-medium mb-1 mt-3">Command Injection Prevention</h4>
-          <pre className="bg-gray-700 p-3 rounded overflow-auto">
-{`// Safe command execution in Node.js
-const { exec } = require('child_process');
-const userInput = sanitize(req.query.input);
-exec(`ping -c 4 ${userInput}`, (error, stdout, stderr) => {
-  // Handle output
-});`}
-          </pre>
-
-          <h4 className="font-medium mb-1 mt-3">Parameterized Queries</h4>
-          <pre className="bg-gray-700 p-3 rounded overflow-auto">
-{`# Python SQL with parameters
-cursor.execute("SELECT * FROM users WHERE id = %s", (user_id,))`}
-          </pre>
-        </article>
-
-        <article className="mb-6 bg-gray-900 p-4 rounded-lg">
-          <h3 className="text-xl font-semibold mb-2 text-blue-400">2. Secure Coding Practices</h3>
-          
-          <h4 className="font-medium mb-1 mt-3">Safe Deserialization</h4>
-          <pre className="bg-gray-700 p-3 rounded overflow-auto">
-{`// Java safe deserialization
-ObjectInputStream ois = new ObjectInputStream(input) {
-  @Override
-  protected Class<?> resolveClass(ObjectStreamClass desc) 
-    throws IOException, ClassNotFoundException {
-    if (!desc.getName().equals("safe.package.TrustedClass")) {
-      throw new InvalidClassException("Unauthorized deserialization");
-    }
-    return super.resolveClass(desc);
-  }
-};`}
-          </pre>
-
-          <h4 className="font-medium mb-1 mt-3">Template Engine Security</h4>
-          <pre className="bg-gray-700 p-3 rounded overflow-auto">
-{`# Django template autoescape
-from django.utils.html import escape
-user_content = escape(untrusted_input)`}
-          </pre>
-        </article>
+        <h2 className="text-3xl font-semibold mb-4 text-blue-600">Blue Team Defenses</h2>
+      
+        <div className="space-y-6">
+          {/* Input Validation */}
+          <div className="bg-gray-900 p-4 rounded-lg">
+            <h3 className="text-xl font-semibold mb-3 text-blue-400">1. Input Validation</h3>
+            
+            <div className="space-y-4">
+              <div>
+                <h4 className="font-medium mb-2">Command Injection Prevention</h4>
+                <div className="bg-gray-700 p-3 rounded overflow-auto">
+                  <code>
+                    {`// Safe command execution\nconst cleanInput = sanitize(userInput);\nexec(\`ping \${cleanInput}\`);`}
+                  </code>
+                </div>
+              </div>
+      
+              <div>
+                <h4 className="font-medium mb-2">SQL Parameterization</h4>
+                <div className="bg-gray-700 p-3 rounded overflow-auto">
+                  <code>
+                    {`// Parameterized query\n"SELECT * FROM users WHERE id = ?", [userId]`}
+                  </code>
+                </div>
+              </div>
+            </div>
+          </div>
+      
+          {/* Secure Coding */}
+          <div className="bg-gray-900 p-4 rounded-lg">
+            <h3 className="text-xl font-semibold mb-3 text-blue-400">2. Secure Coding</h3>
+            
+            <div className="space-y-4">
+              <div>
+                <h4 className="font-medium mb-2">Safe Deserialization</h4>
+                <div className="bg-gray-700 p-3 rounded overflow-auto">
+                  <code>
+                    {`// Validate classes before deserializing\nif (!allowedClasses.includes(className)) {\n  throw new Error("Blocked");\n}`}
+                  </code>
+                </div>
+              </div>
+      
+              <div>
+                <h4 className="font-medium mb-2">Template Safety</h4>
+                <div className="bg-gray-700 p-3 rounded overflow-auto">
+                  <code>
+                    {`// Auto-escaping in templates\n<%= unsafeInput %>`}
+                  </code>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
 
 
