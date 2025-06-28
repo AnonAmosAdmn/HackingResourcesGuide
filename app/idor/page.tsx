@@ -28,7 +28,7 @@ export default function IDORPage() {
 
 
         <article className="mb-6 bg-gray-900 p-4 rounded-lg">
-          <h3 className="text-xl font-semibold mb-2 text-red-600">Basic IDOR</h3>
+          <h3 className="text-xl font-semibold mb-2 text-red-600">1. Basic IDOR</h3>
           <p className="mb-3">
             Basic Insecure Direct Object Reference (IDOR) vulnerabilities occur when an application exposes a direct reference to an internal object, such as a file, database record, or user account, without enforcing proper authorization checks.
             Attackers can manipulate these references to access or modify data they shouldn’t be able to.
