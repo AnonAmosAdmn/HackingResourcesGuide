@@ -3,7 +3,7 @@ export default function IDORPage() {
   return (
     <main className="p-8 max-w-4xl mx-auto font-sans text-white">
       <h1 className="text-4xl font-extrabold mb-8 text-purple-600">
-        IDOR (Insecure Direct Object Reference) Comprehensive Guide
+        IDOR (Insecure Direct Object Reference)
       </h1>
 
       <section className="mb-8">
