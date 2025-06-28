@@ -23,56 +23,29 @@ export default function RCESafePage() {
         </div>
       </section>
 
-      <section className="mb-10">
-        <h2 className="text-3xl font-semibold mb-4 text-red-600">Attack Vectors (Offensive)</h2>
-
+      <section className="mb-8">
         <article className="mb-6 bg-gray-900 p-4 rounded-lg">
-          <h3 className="text-xl font-semibold mb-2 text-red-400">1. Common Vulnerability Patterns</h3>
-          
-          <h4 className="font-medium mb-1 mt-3">Unsanitized Input</h4>
-          <pre className="bg-gray-700 p-3 rounded overflow-auto">
-{`// Example of vulnerable pattern (do not use)
-// Unsafe user input concatenation
-system("ping " + userInput);`}
-          </pre>
+          <h3 className="text-xl font-semibold mb-2 text-red-400">5. RCE Tools & Payloads</h3>
 
-          <h4 className="font-medium mb-1 mt-3">Dangerous Functions</h4>
-          <pre className="bg-gray-700 p-3 rounded overflow-auto">
-{`// Functions often involved in RCE vulnerabilities
-eval(), exec(), system(), passthru()
-Runtime.getRuntime().exec()
-Process.Start()`}
-          </pre>
-        </article>
-
-        <article className="mb-6 bg-gray-900 p-4 rounded-lg">
-          <h3 className="text-xl font-semibold mb-2 text-red-400">2. Vulnerability Categories</h3>
-          
-          <h4 className="font-medium mb-1 mt-3">Injection Flaws</h4>
-          <div className="bg-gray-700 p-3 rounded">
-            <p>When user input is interpreted as code or commands</p>
-          </div>
-
-          <h4 className="font-medium mb-1 mt-3">Deserialization Issues</h4>
-          <div className="bg-gray-700 p-3 rounded">
-            <p>When untrusted data is deserialized without proper validation</p>
-          </div>
-        </article>
-
-        <article className="mb-6 bg-gray-900 p-4 rounded-lg">
-          <h3 className="text-xl font-semibold mb-2 text-red-400">3. Security Research Resources</h3>
-          
-          <h4 className="font-medium mb-1 mt-3">Academic Papers</h4>
+          <h4 className="font-medium mb-1 mt-3">Exploitation Frameworks</h4>
           <ul className="list-disc list-inside ml-4 space-y-1">
-            <li>MITRE CWE-78: OS Command Injection</li>
-            <li>OWASP Top 10 A03: Injection</li>
+            <li>Metasploit Framework (multi-platform)</li>
+            <li>ysoserial (Java deserialization)</li>
+            <li>GadgetProbe (Java deserialization probing)</li>
           </ul>
 
-          <h4 className="font-medium mb-1 mt-3">Testing Methodologies</h4>
+          <h4 className="font-medium mb-1 mt-3">Payload Generators</h4>
           <ul className="list-disc list-inside ml-4 space-y-1">
-            <li>Static code analysis</li>
-            <li>Input validation testing</li>
-            <li>Sandboxed environments</li>
+            <li>msfvenom (Metasploit payload generator)</li>
+            <li>Shells.s (Reverse shell cheat sheet)</li>
+            <li>RevShells (Interactive reverse shell generator)</li>
+          </ul>
+
+          <h4 className="font-medium mb-1 mt-3">Post-Exploitation</h4>
+          <ul className="list-disc list-inside ml-4 space-y-1">
+            <li>Cobalt Strike (command and control)</li>
+            <li>Empire (post-exploitation framework)</li>
+            <li>Mimikatz (credential dumping)</li>
           </ul>
         </article>
       </section>
